@@ -123,19 +123,22 @@
 
 var form = document.getElementById('addForm');
 var itemList = document.getElementById('items');
-
+var search = document.getElementById('filter');
+var desc = document.getElementById('description');
 //form submit event
 form.addEventListener('submit',addItem);
 //delete event
 itemList.addEventListener('click', removeItem);
-
+// search event
+search.addEventListener('keyup', searchItems);
+//description
 //add item function
 function addItem(e) {
     e.preventDefault();
     
     //get input value
     var newItem = document.getElementById('item').value;
-
+    var itemDesc = document.getElementById('description').value;
     //create new li element
     var li = document.createElement('li');
     li.className = 'list-group-item';
@@ -143,6 +146,8 @@ function addItem(e) {
 
     //append text node to li
     li.appendChild(document.createTextNode(newItem));
+    //append item description to li
+    li.appendChild(document.createTextNode(itemDesc))
 
     //create delete button element
     var deleteBtn = document.createElement('button');
@@ -172,4 +177,26 @@ function removeItem(e) {
             itemList.removeChild(li);
         }
     }
+}
+
+//search items event
+function searchItems(e) {
+    //store input text 
+    var text = e.target.value.toLowerCase();
+    
+    //get all <li> elements
+    var items = document.getElementsByTagName('li');
+    
+    console.log(items)
+    Array.from(items).forEach(function(item) {
+        var itemName = item.firstChild.textContent;
+        //description is always the second childnode of item
+        var descr = item.childNodes[1].textContent;
+        //display items when either item or description is a match
+        if(itemName.toLowerCase().indexOf(text) != -1 || descr.toLowerCase().indexOf(text) != -1) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
 }
