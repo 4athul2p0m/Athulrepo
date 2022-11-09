@@ -12,7 +12,18 @@ function storeDetails(e) {
     if(userName.value == '' || email.value == '') {
         alert('Enter valid details!');
     } else {
-        localStorage.setItem(userName.value,email.value);
-        console.log(localStorage.getItem(userName.value));
+
+        var userObj = {
+            name: userName.value,
+            email: email.value
+        };
+        console.log(userObj);
+
+        //serializing userObj for local storage
+        var userObj_serialized = JSON.stringify(userObj);
+        localStorage.setItem(userObj.name,userObj_serialized);
+        
+        // localStorage.setItem(userName.value,email.value);
+        // console.log(localStorage.getItem(userName.value));
     }
 }
